@@ -1,0 +1,46 @@
+# Al-Muhit Indonesia — Millennium Dawn override
+
+Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli tidak diubah; mod ini hanya menyalin 5 file `history/states/` dengan nama yang sama supaya ditimpa saat load order.
+
+## State yang disentuh
+
+| State | Nama MD | Perubahan |
+|---:|---|---|
+| 631 | Western Java | SDA + manpower x2 |
+| 1114 | Central Java | SDA + manpower x2 |
+| 634 | Eastern Java | SDA + manpower x2 |
+| 640 | Kalimantan (Borneo) | SDA |
+| 639 | Sulawesi | SDA |
+
+## Tambahan SDA (gabungan 5 state)
+
+| Resource | Tambahan | Total akhir |
+|---|---:|---:|
+| oil | 150 | 173 |
+| steel | 300 | 311 |
+| aluminium | 340 | 350 |
+| coal | 120 | 120 |
+| chromium | 200 | 200 |
+| tungsten | 170 | 243 |
+| rubber | 100 | 228 |
+
+## Manpower Jawa
+
+| State | Sebelum | Sesudah |
+|---:|---:|---:|
+| 631 | 35.729.537 | 71.459.074 |
+| 1114 | 31.228.940 | 62.457.880 |
+| 634 | 34.783.640 | 69.567.280 |
+
+## Install
+
+1. Salin folder `Indonesia` ke `.../Hearts of Iron IV/mod/Al-Muhit Indonesia`.
+2. Salin `Al-Muhit Indonesia.mod` ke `.../Hearts of Iron IV/mod/`.
+3. Di launcher, aktifkan **Millennium Dawn** dulu, lalu **Al-Muhit Indonesia** di bawahnya.
+
+## Regenerate
+
+```powershell
+python tools/generate.py --md "C:\Users\myace\Documents\Paradox Interactive\Hearts of Iron IV\mod\Millennium-Dawn"
+python tools/validate.py
+```
