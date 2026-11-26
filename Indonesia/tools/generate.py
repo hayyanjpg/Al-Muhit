@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import shutil
 from pathlib import Path
 
 RESOURCE_ORDER = ["oil", "steel", "aluminium", "coal", "chromium", "tungsten", "rubber"]
@@ -161,11 +162,17 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
 
+    source_dir = args.md / "history" / "states"
     target_dir = args.out / "history" / "states"
     target_dir.mkdir(parents=True, exist_ok=True)
 
+    # MD declares replace_path = "history/states", so the override must carry
+    # the whole directory, not just the five edited files.
+    for source in sorted(source_dir.glob("*.txt")):
+        shutil.copy2(source, target_dir / source.name)
+
     for filename, spec in SPECS.items():
-        source = args.md / "history" / "states" / filename
+        source = source_dir / filename
         if not source.is_file():
             raise FileNotFoundError(source)
         result = build_state(source.read_text(encoding="utf-8"), spec)

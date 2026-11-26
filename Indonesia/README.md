@@ -54,6 +54,8 @@ Jadi jangan terkecoh kalau di UI tidak tertulis "aluminium", "chromium", atau "t
 2. Salin `Al-Muhit Indonesia.mod` ke `.../Hearts of Iron IV/mod/`.
 3. Di launcher, aktifkan **Millennium Dawn** dulu, lalu **Al-Muhit Indonesia** di bawahnya.
 
+Karena MD memakai `replace_path = "history/states"`, override ini juga menyalin **seluruh** folder `history/states/` MD lalu menimpa 5 state yang diubah, dan ikut mendeklarasikan `replace_path = "history/states"` supaya file kita yang dipakai game.
+
 ## Regenerate
 
 ```powershell
