@@ -24,6 +24,22 @@ Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli ti
 | tungsten | 170 | 243 |
 | rubber | 100 | 228 |
 
+## Nama resource di UI Millennium Dawn
+
+Key di file state tetap memakai key vanilla, tapi MD menampilkannya dengan nama lain:
+
+| Key di file state | Nama tampilan di MD |
+|---|---|
+| `oil` | Oil |
+| `steel` | Steel |
+| `aluminium` | **Light Metals** |
+| `chromium` | **Precious Metals** |
+| `tungsten` | **Technology Metals** |
+| `rubber` | Rubber |
+| `coal` | Coal (resource bawaan 1.20; MD 2.0 tidak punya sistem coal khusus) |
+
+Jadi jangan terkecoh kalau di UI tidak tertulis "aluminium", "chromium", atau "tungsten".
+
 ## Manpower Jawa
 
 | State | Sebelum | Sesudah |
