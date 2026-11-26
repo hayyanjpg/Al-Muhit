@@ -1,6 +1,6 @@
 # Al-Muhit Indonesia — Millennium Dawn override
 
-Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli tidak diubah; mod ini hanya menyalin 5 file `history/states/` dengan nama yang sama supaya ditimpa saat load order.
+Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli tidak diubah; mod ini menyalin seluruh `history/states/` MD lalu menimpa 5 file yang diubah.
 
 ## State yang disentuh
 
@@ -55,6 +55,16 @@ Jadi jangan terkecoh kalau di UI tidak tertulis "aluminium", "chromium", atau "t
 3. Di launcher, aktifkan **Millennium Dawn** dulu, lalu **Al-Muhit Indonesia** di bawahnya.
 
 Karena MD memakai `replace_path = "history/states"`, override ini juga menyalin **seluruh** folder `history/states/` MD lalu menimpa 5 state yang diubah, dan ikut mendeklarasikan `replace_path = "history/states"` supaya file kita yang dipakai game.
+
+Penting: HOI4 menentukan load order dari **nama file `.mod`** (dan `dependencies`), bukan dari urutan di `dlc_load.json`. Karena `Al-Muhit Indonesia.mod` secara alfabet mendahului `Millennium-Dawn.mod`, mod ini punya:
+
+```text
+dependencies={
+	"Millennium Dawn: A Modern Day Mod"
+}
+```
+
+Tanpa `dependencies`, MD dimuat belakangan dan menimpa file override ini — itulah sebabnya resource tetap angka default.
 
 ## Regenerate
 
