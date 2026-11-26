@@ -10,61 +10,61 @@ EXPECTED = {
         "id": 631,
         "manpower": 71459074,
         "resources": {
-            "oil": 38,
-            "steel": 61,
-            "aluminium": 30,
-            "coal": 10,
-            "chromium": 20,
-            "tungsten": 20,
-            "rubber": 44,
+            "oil": 78,
+            "steel": 181,
+            "aluminium": 90,
+            "coal": 30,
+            "chromium": 60,
+            "tungsten": 60,
+            "rubber": 84,
         },
     },
     "1114-Central Java.txt": {
         "id": 1114,
         "manpower": 62457880,
         "resources": {
-            "steel": 50,
-            "aluminium": 20,
-            "coal": 10,
-            "chromium": 20,
-            "tungsten": 10,
+            "steel": 150,
+            "aluminium": 60,
+            "coal": 30,
+            "chromium": 60,
+            "tungsten": 30,
         },
     },
     "634-Eastern Java.txt": {
         "id": 634,
         "manpower": 69567280,
         "resources": {
-            "oil": 13,
-            "steel": 40,
-            "aluminium": 10,
-            "chromium": 10,
-            "tungsten": 10,
-            "rubber": 46,
+            "oil": 33,
+            "steel": 120,
+            "aluminium": 30,
+            "chromium": 30,
+            "tungsten": 30,
+            "rubber": 86,
         },
     },
     "640-Kalimantan.txt": {
         "id": 640,
         "manpower": 13561961,
         "resources": {
-            "oil": 122,
-            "steel": 82,
-            "aluminium": 210,
-            "coal": 80,
-            "chromium": 60,
-            "tungsten": 153,
-            "rubber": 92,
+            "oil": 362,
+            "steel": 242,
+            "aluminium": 610,
+            "coal": 240,
+            "chromium": 180,
+            "tungsten": 313,
+            "rubber": 172,
         },
     },
     "639-Sulawesi.txt": {
         "id": 639,
         "manpower": 16396503,
         "resources": {
-            "steel": 78,
-            "aluminium": 80,
-            "coal": 20,
-            "chromium": 90,
-            "tungsten": 50,
-            "rubber": 46,
+            "steel": 218,
+            "aluminium": 240,
+            "coal": 60,
+            "chromium": 270,
+            "tungsten": 150,
+            "rubber": 86,
         },
     },
 }
@@ -117,19 +117,19 @@ def validate() -> None:
             totals[key] += value
 
     expected_totals = {
-        "oil": 173,
-        "steel": 311,
-        "aluminium": 350,
-        "coal": 120,
-        "chromium": 200,
-        "tungsten": 243,
-        "rubber": 228,
+        "oil": 473,
+        "steel": 911,
+        "aluminium": 1030,
+        "coal": 360,
+        "chromium": 600,
+        "tungsten": 583,
+        "rubber": 428,
     }
     assert totals == expected_totals, f"totals mismatch: {totals}"
 
     print(
         "VALIDASI OK: 5 state MD, manpower Jawa x2, "
-        "tambahan SDA sesuai komposisi, rubber +100."
+        "bonus SDA x3 sesuai komposisi, rubber +300."
     )
     print(f"total resource: {totals}")
 

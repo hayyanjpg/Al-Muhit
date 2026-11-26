@@ -3,12 +3,12 @@ state = {
 	name = "STATE_634"
 
 	resources = {
-		oil = 13
-		steel = 40
-		aluminium = 10
-		chromium = 10
-		tungsten = 10
-		rubber = 46
+		oil = 33
+		steel = 120
+		aluminium = 30
+		chromium = 30
+		tungsten = 30
+		rubber = 86
 	}
 
 	history = {

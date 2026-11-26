@@ -2,13 +2,13 @@ state = {
 	id = 640
 	name = "STATE_640"
 	resources = {
-		oil = 122
-		steel = 82
-		aluminium = 210
-		coal = 80
-		chromium = 60
-		tungsten = 153
-		rubber = 92
+		oil = 362
+		steel = 242
+		aluminium = 610
+		coal = 240
+		chromium = 180
+		tungsten = 313
+		rubber = 172
 	}
 
 	history = {

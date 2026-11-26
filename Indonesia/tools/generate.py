@@ -14,6 +14,9 @@ from pathlib import Path
 
 RESOURCE_ORDER = ["oil", "steel", "aluminium", "coal", "chromium", "tungsten", "rubber"]
 
+# Global multiplier applied only to the bonus below; MD baseline stays intact.
+BONUS_MULTIPLIER = 3
+
 SPECS = {
     "631-Western Java.txt": {
         "id": 631,
@@ -107,7 +110,7 @@ def build_state(text: str, spec: dict) -> str:
         indent = match.group(1)
 
     for key, amount in spec["add"].items():
-        values[key] = values.get(key, 0.0) + amount
+        values[key] = values.get(key, 0.0) + amount * BONUS_MULTIPLIER
     values = {key: value for key, value in values.items() if value > 0}
 
     lines = "\n".join(

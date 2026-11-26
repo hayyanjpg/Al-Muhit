@@ -3,11 +3,11 @@ state = {
 	name = "STATE_1114"
 
 	resources = {
-		steel = 50
-		aluminium = 20
-		coal = 10
-		chromium = 20
-		tungsten = 10
+		steel = 150
+		aluminium = 60
+		coal = 30
+		chromium = 60
+		tungsten = 30
 	}
 	history = {
 		owner = IND

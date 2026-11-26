@@ -5,13 +5,13 @@ state = {
 	state_category = state_15
 
 	resources = {
-		oil = 38
-		steel = 61
-		aluminium = 30
-		coal = 10
-		chromium = 20
-		tungsten = 20
-		rubber = 44
+		oil = 78
+		steel = 181
+		aluminium = 90
+		coal = 30
+		chromium = 60
+		tungsten = 60
+		rubber = 84
 	}
 
 	history = {

@@ -14,15 +14,17 @@ Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli ti
 
 ## Tambahan SDA (gabungan 5 state)
 
+Bonus bawaan sudah dikali 3 (`BONUS_MULTIPLIER = 3` di `tools/generate.py`); nilai asli MD tidak diubah.
+
 | Resource | Tambahan | Total akhir |
 |---|---:|---:|
-| oil | 150 | 173 |
-| steel | 300 | 311 |
-| aluminium | 340 | 350 |
-| coal | 120 | 120 |
-| chromium | 200 | 200 |
-| tungsten | 170 | 243 |
-| rubber | 100 | 228 |
+| oil | 450 | 473 |
+| steel | 900 | 911 |
+| aluminium | 1020 | 1030 |
+| coal | 360 | 360 |
+| chromium | 600 | 600 |
+| tungsten | 510 | 583 |
+| rubber | 300 | 428 |
 
 ## Nama resource di UI Millennium Dawn
 
