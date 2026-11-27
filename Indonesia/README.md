@@ -1,16 +1,18 @@
 # Al-Muhit Indonesia — Millennium Dawn override
 
-Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli tidak diubah; mod ini menyalin seluruh `history/states/` MD lalu menimpa 5 file yang diubah.
+Override kecil untuk **Millennium Dawn 2.0.x**. Folder `Millennium-Dawn` asli tidak diubah; mod ini menyalin seluruh `history/states/` MD lalu menimpa 5 file SDA dan menambah slot bangunan di 17 state Indonesia.
 
 ## State yang disentuh
 
 | State | Nama MD | Perubahan |
 |---:|---|---|
-| 631 | Western Java | SDA + manpower x2 |
-| 1114 | Central Java | SDA + manpower x2 |
-| 634 | Eastern Java | SDA + manpower x2 |
-| 640 | Kalimantan (Borneo) | SDA |
-| 639 | Sulawesi | SDA |
+| 631 | Western Java | SDA + slot bangunan x2 |
+| 1114 | Central Java | SDA + slot bangunan x2 |
+| 634 | Eastern Java | SDA + slot bangunan x2 |
+| 640 | Kalimantan (Borneo) | SDA + slot bangunan x2 |
+| 639 | Sulawesi | SDA + slot bangunan x2 |
+
+Slot bangunan x2 juga diterapkan ke seluruh state IND lainnya: 623, 627, 629, 635, 636, 637, 638, 734, 936, 1113, 1185, dan 1226.
 
 ## Tambahan SDA (gabungan 5 state)
 
@@ -44,11 +46,19 @@ Jadi jangan terkecoh kalau di UI tidak tertulis "aluminium", "chromium", atau "t
 
 ## Manpower Jawa
 
-| State | Sebelum | Sesudah |
-|---:|---:|---:|
-| 631 | 35.729.537 | 71.459.074 |
-| 1114 | 31.228.940 | 62.457.880 |
-| 634 | 34.783.640 | 69.567.280 |
+Manpower dikembalikan ke nilai awal MD; tidak ada perkalian lagi.
+
+| State | Nilai MD |
+|---:|---:|
+| 631 | 35.729.537 |
+| 1114 | 31.228.940 |
+| 634 | 34.783.640 |
+
+## Kapasitas bangunan
+
+Semua state Indonesia mendapat efek `add_extra_state_shared_building_slots` sebesar `local_building_slots` kategori MD-nya. Jadi total slot bangunan jadi dua kali kategori aslinya, misalnya `state_15` 55 → 110 dan `state_14` 51 → 102.
+
+Efek ditaruh di dalam blok `history` tiap state, jadi tidak menyentuh `common/state_category` MD dan tidak perlu override `map/`.
 
 ## Install
 
@@ -56,7 +66,7 @@ Jadi jangan terkecoh kalau di UI tidak tertulis "aluminium", "chromium", atau "t
 2. Salin `Al-Muhit Indonesia.mod` ke `.../Hearts of Iron IV/mod/`.
 3. Di launcher, aktifkan **Millennium Dawn** dulu, lalu **Al-Muhit Indonesia** di bawahnya.
 
-Karena MD memakai `replace_path = "history/states"`, override ini juga menyalin **seluruh** folder `history/states/` MD lalu menimpa 5 state yang diubah, dan ikut mendeklarasikan `replace_path = "history/states"` supaya file kita yang dipakai game.
+Karena MD memakai `replace_path = "history/states"`, override ini juga menyalin **seluruh** folder `history/states/` MD lalu menimpa 5 state SDA dan 17 state IND untuk slot bangunan, dan ikut mendeklarasikan `replace_path = "history/states"` supaya file kita yang dipakai game.
 
 Penting: HOI4 menentukan load order dari **nama file `.mod`** (dan `dependencies`), bukan dari urutan di `dlc_load.json`. Karena `Al-Muhit Indonesia.mod` secara alfabet mendahului `Millennium-Dawn.mod`, mod ini punya:
 

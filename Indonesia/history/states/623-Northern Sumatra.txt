@@ -10,6 +10,7 @@ state = {
 	}
 
 	history = {
+		add_extra_state_shared_building_slots = 43
 		owner = IND
 		set_variable = { state_renewable_capacity_factor_modifier_var = 0.525 }
 		victory_points = {

@@ -9,7 +9,6 @@ from __future__ import annotations
 import argparse
 import os
 import re
-import shutil
 from pathlib import Path
 
 RESOURCE_ORDER = ["oil", "steel", "aluminium", "coal", "chromium", "tungsten", "rubber"]
@@ -17,10 +16,14 @@ RESOURCE_ORDER = ["oil", "steel", "aluminium", "coal", "chromium", "tungsten", "
 # Global multiplier applied only to the bonus below; MD baseline stays intact.
 BONUS_MULTIPLIER = 3
 
+# Indonesia gets a second batch of slots on top of its MD state category,
+# effectively doubling the category's local_building_slots.
+EXTRA_SLOT_MULTIPLIER = 2
+
 SPECS = {
     "631-Western Java.txt": {
         "id": 631,
-        "manpower_multiplier": 2,
+        "manpower_multiplier": 1,
         "add": {
             "oil": 20,
             "steel": 60,
@@ -33,7 +36,7 @@ SPECS = {
     },
     "1114-Central Java.txt": {
         "id": 1114,
-        "manpower_multiplier": 2,
+        "manpower_multiplier": 1,
         "add": {
             "steel": 50,
             "aluminium": 20,
@@ -44,7 +47,7 @@ SPECS = {
     },
     "634-Eastern Java.txt": {
         "id": 634,
-        "manpower_multiplier": 2,
+        "manpower_multiplier": 1,
         "add": {
             "oil": 10,
             "steel": 40,
@@ -98,6 +101,58 @@ def find_resources(text: str):
         if item:
             values[item.group(1)] = float(item.group(2))
     return match, values
+
+
+def load_category_slots(md_dir: Path) -> dict[str, int]:
+    """Read local_building_slots from MD's state_category definitions."""
+    result: dict[str, int] = {}
+    category_dir = md_dir / "common" / "state_category"
+    for path in sorted(category_dir.glob("*.txt")):
+        current: str | None = None
+        depth = 0
+        for line in path.read_text(encoding="utf-8").splitlines():
+            header = re.match(r"^[ \t]*(state_[A-Za-z0-9_]+)[ \t]*=[ \t]*\{", line)
+            if current is None and header and header.group(1) != "state_categories":
+                current = header.group(1)
+                depth = 1
+                continue
+            if current is not None:
+                slot = re.search(r"local_building_slots[ \t]*=[ \t]*(\d+)", line)
+                if slot is not None:
+                    result[current] = int(slot.group(1))
+                depth += line.count("{") - line.count("}")
+                if depth <= 0:
+                    current = None
+    return result
+
+
+def is_indonesian_state(text: str) -> bool:
+    return re.search(r"(?m)^[ \t]*owner[ \t]*=[ \t]*IND\b", text) is not None
+
+
+def get_state_category(text: str) -> str:
+    match = re.search(r"(?m)^[ \t]*state_category[ \t]*=[ \t]*(\S+)", text)
+    if match is None:
+        raise ValueError("state has no state_category")
+    return match.group(1)
+
+
+def add_extra_slots(text: str, slots: int) -> str:
+    """Add a history effect granting extra shared building slots."""
+    line = f"add_extra_state_shared_building_slots = {slots}"
+
+    def insert(m: re.Match[str]) -> str:
+        return f"{m.group(0)}\n{m.group(1)}\t{line}"
+
+    text, count = re.subn(
+        r"(?m)^([ \t]*)history[ \t]*=[ \t]*\{[ \t]*$",
+        insert,
+        text,
+        count=1,
+    )
+    if count != 1:
+        raise ValueError("history block not found")
+    return text
 
 
 def build_state(text: str, spec: dict) -> str:
@@ -170,18 +225,28 @@ def main() -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
 
     # MD declares replace_path = "history/states", so the override must carry
-    # the whole directory, not just the five edited files.
+    # the whole directory, not just the edited files.
+    category_slots = load_category_slots(args.md)
+    indonesia_count = 0
+
     for source in sorted(source_dir.glob("*.txt")):
-        shutil.copy2(source, target_dir / source.name)
+        text = source.read_text(encoding="utf-8")
 
-    for filename, spec in SPECS.items():
-        source = source_dir / filename
-        if not source.is_file():
-            raise FileNotFoundError(source)
-        result = build_state(source.read_text(encoding="utf-8"), spec)
-        (target_dir / filename).write_text(result, encoding="utf-8")
-        print(f"generated {filename}")
+        if is_indonesian_state(text):
+            category = get_state_category(text)
+            if category not in category_slots:
+                raise ValueError(f"unknown state category {category} in {source.name}")
+            extra = category_slots[category] * (EXTRA_SLOT_MULTIPLIER - 1)
+            text = add_extra_slots(text, extra)
+            indonesia_count += 1
 
+        if source.name in SPECS:
+            text = build_state(text, SPECS[source.name])
+            print(f"generated {source.name}")
+
+        (target_dir / source.name).write_text(text, encoding="utf-8")
+
+    print(f"extra building slots added to {indonesia_count} Indonesian states")
     print("GENERATE OK")
 
 

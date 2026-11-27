@@ -8,7 +8,7 @@ from pathlib import Path
 EXPECTED = {
     "631-Western Java.txt": {
         "id": 631,
-        "manpower": 71459074,
+        "manpower": 35729537,
         "resources": {
             "oil": 78,
             "steel": 181,
@@ -21,7 +21,7 @@ EXPECTED = {
     },
     "1114-Central Java.txt": {
         "id": 1114,
-        "manpower": 62457880,
+        "manpower": 31228940,
         "resources": {
             "steel": 150,
             "aluminium": 60,
@@ -32,7 +32,7 @@ EXPECTED = {
     },
     "634-Eastern Java.txt": {
         "id": 634,
-        "manpower": 69567280,
+        "manpower": 34783640,
         "resources": {
             "oil": 33,
             "steel": 120,
@@ -67,6 +67,27 @@ EXPECTED = {
             "rubber": 86,
         },
     },
+}
+
+# Extra shared slots = MD category's local_building_slots, so total slots x2.
+EXPECTED_SLOTS = {
+    "623-Northern Sumatra.txt": 43,
+    "627-Riau Islands.txt": 10,
+    "629-Southern Sumatra.txt": 43,
+    "631-Western Java.txt": 55,
+    "634-Eastern Java.txt": 55,
+    "635-Lesser Sunda Islands.txt": 33,
+    "636-Moluccas.txt": 10,
+    "637-North Moluccas.txt": 8,
+    "638-West Papua.txt": 18,
+    "639-Sulawesi.txt": 40,
+    "640-Kalimantan.txt": 36,
+    "734-Loro Munu.txt": 4,
+    "936-Natuna Islands.txt": 1,
+    "1113-Banten.txt": 29,
+    "1114-Central Java.txt": 51,
+    "1185-West Timor.txt": 8,
+    "1226-Timor Leste.txt": 8,
 }
 
 
@@ -116,6 +137,34 @@ def validate() -> None:
         for key, value in actual.items():
             totals[key] += value
 
+    for filename, slots in EXPECTED_SLOTS.items():
+        path = state_dir / filename
+        if not path.is_file():
+            raise AssertionError(f"missing {path}")
+        text = path.read_text(encoding="utf-8")
+        actual_slots = re.findall(
+            r"(?m)^[ \t]*add_extra_state_shared_building_slots[ \t]*=[ \t]*(\d+)",
+            text,
+        )
+        assert len(actual_slots) == 1, (
+            f"{filename}: expected exactly one add_extra_state_shared_building_slots, "
+            f"got {actual_slots}"
+        )
+        assert int(actual_slots[0]) == slots, (
+            f"{filename}: slot mismatch, expected {slots}, got {actual_slots[0]}"
+        )
+
+    indonesian_files = {
+        path.name
+        for path in state_dir.glob("*.txt")
+        if re.search(r"(?m)^[ \t]*owner[ \t]*=[ \t]*IND\b", path.read_text(encoding="utf-8"))
+    }
+    assert indonesian_files == set(EXPECTED_SLOTS), (
+        f"Indonesian state coverage mismatch: "
+        f"missing={set(EXPECTED_SLOTS) - indonesian_files}, "
+        f"unexpected={indonesian_files - set(EXPECTED_SLOTS)}"
+    )
+
     expected_totals = {
         "oil": 473,
         "steel": 911,
@@ -128,8 +177,8 @@ def validate() -> None:
     assert totals == expected_totals, f"totals mismatch: {totals}"
 
     print(
-        "VALIDASI OK: 5 state MD, manpower Jawa x2, "
-        "bonus SDA x3 sesuai komposisi, rubber +300."
+        "VALIDASI OK: manpower Jawa md asli, bonus SDA x3 sesuai komposisi, "
+        f"slot bangunan x2 di {len(EXPECTED_SLOTS)} state IND."
     )
     print(f"total resource: {totals}")
 

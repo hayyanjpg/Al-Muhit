@@ -8,6 +8,7 @@ state = {
 	}
 
 	history = {
+		add_extra_state_shared_building_slots = 8
 		owner = IND
 		set_variable = { state_renewable_capacity_factor_modifier_var = 0.606 }
 		victory_points = { 7413 5 } #Ternate

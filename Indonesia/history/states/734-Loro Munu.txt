@@ -10,6 +10,7 @@ state = {
 	}
 
 	history = {
+		add_extra_state_shared_building_slots = 4
 		owner = IND
 		victory_points = {
 			13001 5
